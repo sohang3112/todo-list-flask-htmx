@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO List with HTMX</title>
+    <style>
+        table, th, td {
+            border: 1px solid;
+        }
+    </style>
+    <script src="https://unpkg.com/htmx.org@1.9.2"
+            integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h"
+            crossorigin="anonymous">
+    </script>
+</head>
+<body>
+    <h1>TODO List with HTMX</h1>
+
+    <table id="todo-list">
+        <thead>
+            <tr>
+                <th>Rowid</th>
+                <th>Item</th>
+                <th>Due Date</th>
+            </tr>
+        </thead>
+
+        <!-- existing table contents -->
+        {% for row in todo_list %}
+            <tr>
+                <td>{{ row["rowid"] }}</td>
+                <td>{{ row["item"] }}</td>
+                <td>{{ row["due_date"] }}</td>
+            </tr>
+        {% endfor %}
+
+        <!-- new table row -->
+        <tr id="replace-me"></tr>
+        <tr class="new-row">
+            <td colspan="3">
+                <button hx-get="/row/new" 
+                        hx-target="#replace-me"
+                        hx-swap="outerHTML">
+                    Add TODO row..
+                </button>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
