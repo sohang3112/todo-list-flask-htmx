@@ -1,11 +1,13 @@
 from typing import Any, Mapping
 from pprint import pprint
+import logging
 import sqlite3
 
 from flask import Flask, request, render_template
 import pandas as pd
 
-app = Flask(__name__)
+
+#region helper-funcitons
 
 def db_connection():
     conn = sqlite3.connect(
@@ -45,6 +47,23 @@ def mk_db_table():
         CREATE TABLE IF NOT EXISTS todo_list(item, due_date)
     """)
 
+#endregion helper-funcitons
+
+app = Flask(__name__)
+app.logger.setLevel(level=logging.INFO)
+
+@app.before_request
+def log_request():
+    request_line = f"{request.method} {request.path}"
+    headers = "\n".join([f"{key}: {value}" for key, value in request.headers.items()])
+    body = request.get_data(as_text=True)
+    app.logger.debug(f"{request_line}\n{headers}\n\n{body}")
+
+@app.after_request
+def disable_caching(response):
+    response.headers['Cache-Control'] = 'no-store'
+    return response
+
 @app.get('/')
 def index():
     # Sqlite automatically provides column ROWID for every table
@@ -57,14 +76,24 @@ def index():
     """)
     return render_template('index.html', todo_list=todo_list)
 
-@app.get('/row/new')
+@app.post('/row/new')
 def new_row():
-    inserted_row_id = db_query("""
-        INSERT INTO todo_list(item, due_date) VALUES 
-            (NULL, NULL)   
-    """)
+    inserted_row_id = db_query("INSERT INTO todo_list(item, due_date) VALUES (NULL, NULL)")
     return render_template('new_row.html', rowid=inserted_row_id)
+
+# MAYBE TODO: use PUT http method instead of POST ??
+@app.post('/row/<rowid>/edit')
+def edit_row(rowid: int):
+    pass
+
+# MAYBE TODO: use DELETE http method instead of POST ??
+@app.post('/row/<rowid>/delete')
+def delete_row(rowid: int):
+    # TODO: raise error if sql query raises error (i.e., rowid doesn't exist)
+    db_query("DELETE FROM todo_list WHERE rowid = ?", (rowid,))
+    # TODO: return something
 
 if __name__ == '__main__':
     mk_db_table()
+    app.logger.debug('Starting app')
     app.run(debug=True)
