@@ -91,7 +91,7 @@ def edit_row(rowid: int):
 def delete_row(rowid: int):
     # TODO: raise error if sql query raises error (i.e., rowid doesn't exist)
     db_query("DELETE FROM todo_list WHERE rowid = ?", (rowid,))
-    # TODO: return something
+    return ""
 
 if __name__ == '__main__':
     mk_db_table()
