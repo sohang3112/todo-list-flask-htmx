@@ -1,12 +1,14 @@
-<tr>
+<tr class="item-row">
     <td class="id">{{ id }}</td>
     <td>
         <input name="item" placeholder="Enter TODO item here.."
-               hx-trigger="change" hx-post="/row/{{ id }}/edit" hx-swap="none">
+               hx-trigger="change" hx-post="/row/{{ id }}/edit" hx-swap="none"
+               {% if item %} value="{{ item }}" {% endif %}>
     </td>
     <td>
         <input name="due_date" type="date"
-               hx-trigger="change" hx-post="/row/{{ id }}/edit" hx-swap="none">
+               hx-trigger="change" hx-post="/row/{{ id }}/edit" hx-swap="none"
+               {% if item %} value="{{ date }}" {% endif %}>
     </td>
     <td class="delete">
         <button hx-post="/row/{{ id }}/delete" 

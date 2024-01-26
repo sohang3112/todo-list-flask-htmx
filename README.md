@@ -1,9 +1,9 @@
 # Todo List with HTMX
 Just experimenting with `htmx` ..
 
-- [-] Create
+- [x] Create
 - [x] Read
-- [-] Update
+- [-] Update: only *item* is updated, *due_date* not getting updated.
 - [x] Delete
 
 

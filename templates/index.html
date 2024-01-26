@@ -34,18 +34,9 @@
 
         <!-- existing table contents -->
         {% for row in todo_list %}
-            <tr class="item-row">
-                <td>{{ row['id'] }}</td>
-                <td>{{ row['item'] }}</td>
-                <td>{{ row['due_date'] }}</td>
-                <td class="delete">
-                    <button hx-post="/row/{{ row['id'] }}/delete" 
-                            hx-target="closest .item-row" 
-                            hx-swap="outerHTML">
-                        Delete <i class="fa-solid fa-trash-alt"></i>
-                    </button>
-                </td>
-            </tr>
+            {% with id=row['id'], item=row['item'], due_date=row['due_date'] %}
+                {% include "new_row.html" %}
+            {% endwith %}
         {% endfor %}
 
         <!-- new table row -->
