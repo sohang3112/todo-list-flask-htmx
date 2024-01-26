@@ -82,10 +82,16 @@ def new_row():
     inserted_id = db_query("SELECT id FROM todo_list WHERE rowid = ?", (inserted_rowid,))[0]['id']
     return render_template('new_row.html', id=inserted_id)
 
-# MAYBE TODO: use PUT http method instead of POST ??
 @app.post('/row/<id>/edit')
 def edit_row(id: int):
-    pass
+    req_item = list(request.form.items())
+    assert len(req_item) == 1, f'multiple edits at once not supported, keys {",".join(req_item.form.keys())}'
+    print(req_item)
+    column, value = req_item[0]
+
+    # TODO: sanitize column. statement can fail if column invalid, catch it.
+    db_query(f"UPDATE todo_list SET {column} = ? WHERE id = ?", (value, id))
+    return ""         # dummy value, not using response value
 
 # MAYBE TODO: use DELETE http method instead of POST ??
 @app.post('/row/<id>/delete')

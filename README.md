@@ -1,9 +1,9 @@
 # Todo List with HTMX
 Just experimenting with `htmx` ..
 
-- [-] Create: Only blank row created right now, entered values won't persist.
+- [-] Create
 - [x] Read
-- [ ] Update
+- [-] Update
 - [x] Delete
 
 

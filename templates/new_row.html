@@ -1,10 +1,18 @@
 <tr>
     <td class="id">{{ id }}</td>
     <td>
-        <input name="todo-item" placeholder="Enter TODO item here..">
+        <input name="item" placeholder="Enter TODO item here.."
+               hx-trigger="change" hx-post="/row/{{ id }}/edit" hx-swap="none">
     </td>
     <td>
-        <input name="due-date" type="date">
+        <input name="due_date" type="date"
+               hx-trigger="change" hx-post="/row/{{ id }}/edit" hx-swap="none">
     </td>
-    <td></td>      <!-- delete button column -->
+    <td class="delete">
+        <button hx-post="/row/{{ id }}/delete" 
+                hx-target="closest .item-row" 
+                hx-swap="outerHTML">
+            Delete <i class="fa-solid fa-trash-alt"></i>
+        </button>
+    </td>
 </tr>
