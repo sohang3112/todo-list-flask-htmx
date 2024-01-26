@@ -25,7 +25,7 @@
     <table id="todo-list">
         <thead>
             <tr>
-                <th>Rowid</th>
+                <th>Id</th>
                 <th>Item</th>
                 <th>Due Date</th>
                 <th></th>
@@ -35,11 +35,11 @@
         <!-- existing table contents -->
         {% for row in todo_list %}
             <tr class="item-row" id="current-row">
-                <td>{{ row['rowid'] }}</td>
+                <td>{{ row['id'] }}</td>
                 <td>{{ row['item'] }}</td>
                 <td>{{ row['due_date'] }}</td>
                 <td class="delete">
-                    <button hx-post="/row/{{ row['rowid'] }}/delete" hx-target="#current-row" hx-swap="outerHTML">
+                    <button hx-post="/row/{{ row['id'] }}/delete" hx-target="#current-row" hx-swap="outerHTML">
                         Delete <i class="fa-solid fa-trash-alt"></i>
                     </button>
                 </td>
@@ -50,7 +50,7 @@
         <tr id="replace-me"></tr>
         <tr class="new-row">
             <td colspan="4">
-                <button hx-post="/row/new" hx-target="#replace-me" hx-swap="outerHTML">
+                <button hx-post="/row/new" hx-target="#replace-me" hx-swap="afterend">
                     Add TODO row..
                 </button>
             </td>
