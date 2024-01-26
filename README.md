@@ -8,4 +8,5 @@ Just experimenting with `htmx` ..
 
 
 ## TODO
+- better style with CSS
 - Exclude `testing.py` from server restart in Flask debug mode.
