@@ -34,12 +34,14 @@
 
         <!-- existing table contents -->
         {% for row in todo_list %}
-            <tr class="item-row" id="current-row">
+            <tr class="item-row">
                 <td>{{ row['id'] }}</td>
                 <td>{{ row['item'] }}</td>
                 <td>{{ row['due_date'] }}</td>
                 <td class="delete">
-                    <button hx-post="/row/{{ row['id'] }}/delete" hx-target="#current-row" hx-swap="outerHTML">
+                    <button hx-post="/row/{{ row['id'] }}/delete" 
+                            hx-target="closest .item-row" 
+                            hx-swap="outerHTML">
                         Delete <i class="fa-solid fa-trash-alt"></i>
                     </button>
                 </td>
